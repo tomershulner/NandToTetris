@@ -1,0 +1,24 @@
+class Main {
+    function void main() {
+        // All graphics variables 
+        var Vegeta vegeta;
+        var Floor floor;
+        var int key, exit;
+        let exit = 0;
+        let vegeta = Vegeta.new(5600);
+        do vegeta.draw(); // draw the character
+        let floor = Floor.new(7680);
+        do floor.drawFloor();
+        while (exit = 0) {
+            let key = 0;
+            while (key = 0) {
+                let key = Keyboard.keyPressed();
+            }
+            if (key = 32) {
+                do vegeta.moveUp();
+            }
+        }
+
+        return;
+    }
+}
