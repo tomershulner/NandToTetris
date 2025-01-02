@@ -1,0 +1,222 @@
+// Class that handles all of the game graphics
+
+class Graphics {
+
+    function void drawVegeta(int location) {
+        do drawVegetaHead(location);
+        do drawVegetaBody(location + (32*23));
+        return;
+    }
+    
+    function void eraseVegeta(int location) {
+        do eraseVegetaHead(location);
+		do eraseVegetaBody(location + (32*23));
+        return;
+    }
+
+    method void eraseVegetaHead(int location) {
+		var int memAddress; 
+		let memAddress = 16384 + location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 0);
+		do Memory.poke(memAddress +96, 0);
+		do Memory.poke(memAddress +128, 0);
+		do Memory.poke(memAddress +160, 0);
+		do Memory.poke(memAddress +192, 0);
+		do Memory.poke(memAddress +224, 0);
+		do Memory.poke(memAddress +256, 0);
+		do Memory.poke(memAddress +288, 0);
+		do Memory.poke(memAddress +320, 0);
+		do Memory.poke(memAddress +352, 0);
+		do Memory.poke(memAddress +384, 0);
+		do Memory.poke(memAddress +416, 0);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		do Memory.poke(memAddress +512, 0);
+		do Memory.poke(memAddress +544, 0);
+		do Memory.poke(memAddress +576, 0);
+		do Memory.poke(memAddress +608, 0);
+		do Memory.poke(memAddress +640, 0);
+		do Memory.poke(memAddress +672, 0);
+		do Memory.poke(memAddress +704, 0);
+		do Memory.poke(memAddress +736, 0);
+		do Memory.poke(memAddress +768, 0);
+		do Memory.poke(memAddress +800, 0);
+		do Memory.poke(memAddress +832, 0);
+		do Memory.poke(memAddress +864, 0);
+		do Memory.poke(memAddress +896, 0);
+		do Memory.poke(memAddress +928, 0);
+		do Memory.poke(memAddress +960, 0);
+		do Memory.poke(memAddress +992, 0);
+		// column 1
+		do Memory.poke(memAddress +1, 0);
+		do Memory.poke(memAddress +33, 0);
+		do Memory.poke(memAddress +65, 0);
+		do Memory.poke(memAddress +97, 0);
+		do Memory.poke(memAddress +129, 0);
+		do Memory.poke(memAddress +161, 0);
+		do Memory.poke(memAddress +193, 0);
+		do Memory.poke(memAddress +225, 0);
+		do Memory.poke(memAddress +257, 0);
+		do Memory.poke(memAddress +289, 0);
+		do Memory.poke(memAddress +321, 0);
+		do Memory.poke(memAddress +353, 0);
+		do Memory.poke(memAddress +385, 0);
+		do Memory.poke(memAddress +417, 0);
+		do Memory.poke(memAddress +449, 0);
+		do Memory.poke(memAddress +481, 0);
+		do Memory.poke(memAddress +513, 0);
+		do Memory.poke(memAddress +545, 0);
+		do Memory.poke(memAddress +577, 0);
+		do Memory.poke(memAddress +609, 0);
+		do Memory.poke(memAddress +641, 0);
+		do Memory.poke(memAddress +673, 0);
+		do Memory.poke(memAddress +705, 0);
+		do Memory.poke(memAddress +737, 0);
+		do Memory.poke(memAddress +769, 0);
+		do Memory.poke(memAddress +801, 0);
+		do Memory.poke(memAddress +833, 0);
+		do Memory.poke(memAddress +865, 0);
+		do Memory.poke(memAddress +897, 0);
+		do Memory.poke(memAddress +929, 0);
+		do Memory.poke(memAddress +961, 0);
+		do Memory.poke(memAddress +993, 0);
+		return;
+	}
+
+    method int drawVegetaHead(int location) {
+	    var int memAddress; 
+	    let memAddress = 16384 + location;
+	    // column 0
+	    do Memory.poke(memAddress, 0);
+	    do Memory.poke(memAddress +32, 0);
+	    do Memory.poke(memAddress +64, 0);
+	    do Memory.poke(memAddress +96, 0);
+	    do Memory.poke(memAddress +128, 0);
+	    do Memory.poke(memAddress +160, 0);
+	    do Memory.poke(memAddress +192, 0);
+	    do Memory.poke(memAddress +224, -24576);
+	    do Memory.poke(memAddress +256, -4096);
+	    do Memory.poke(memAddress +288, -2048);
+	    do Memory.poke(memAddress +320, -768);
+	    do Memory.poke(memAddress +352, -128);
+	    do Memory.poke(memAddress +384, -128);
+	    do Memory.poke(memAddress +416, -256);
+	    do Memory.poke(memAddress +448, -16640);
+	    do Memory.poke(memAddress +480, 8064);
+	    do Memory.poke(memAddress +512, 4032);
+	    do Memory.poke(memAddress +544, -13440);
+	    do Memory.poke(memAddress +576, -32000);
+	    do Memory.poke(memAddress +608, -32256);
+	    do Memory.poke(memAddress +640, 1024);
+	    do Memory.poke(memAddress +672, -14336);
+	    do Memory.poke(memAddress +704, 4096);
+	    do Memory.poke(memAddress +736, -8192);
+	    // column 1
+	    do Memory.poke(memAddress +1, 0);
+	    do Memory.poke(memAddress +33, 0);
+	    do Memory.poke(memAddress +65, 0);
+	    do Memory.poke(memAddress +97, 0);
+	    do Memory.poke(memAddress +129, 0);
+	    do Memory.poke(memAddress +161, 0);
+	    do Memory.poke(memAddress +193, 1);
+	    do Memory.poke(memAddress +225, 3);
+	    do Memory.poke(memAddress +257, 3);
+	    do Memory.poke(memAddress +289, 11);
+	    do Memory.poke(memAddress +321, 31);
+	    do Memory.poke(memAddress +353, 31);
+	    do Memory.poke(memAddress +385, 63);
+	    do Memory.poke(memAddress +417, 63);
+	    do Memory.poke(memAddress +449, 63);
+	    do Memory.poke(memAddress +481, 55);
+	    do Memory.poke(memAddress +513, 50);
+	    do Memory.poke(memAddress +545, 56);
+	    do Memory.poke(memAddress +577, 21);
+	    do Memory.poke(memAddress +609, 21);
+	    do Memory.poke(memAddress +641, 16);
+	    do Memory.poke(memAddress +673, 25);
+	    do Memory.poke(memAddress +705, 4);
+	    do Memory.poke(memAddress +737, 3);
+	    return 736;
+
+    }
+
+    method void drawVegetaBody(int location) {
+	    var int memAddress; 
+	    let memAddress = 16384+location;
+	    // column 0
+	    do Memory.poke(memAddress +32, 3840);
+	    do Memory.poke(memAddress +64, 4352);
+	    do Memory.poke(memAddress +96, -7936);
+	    do Memory.poke(memAddress +128, 128);
+	    do Memory.poke(memAddress +160, 2112);
+	    do Memory.poke(memAddress +192, 3136);
+	    do Memory.poke(memAddress +224, 3136);
+	    do Memory.poke(memAddress +256, 3136);
+	    do Memory.poke(memAddress +288, 2944);
+	    do Memory.poke(memAddress +320, 1024);
+	    do Memory.poke(memAddress +352, -32256);
+	    do Memory.poke(memAddress +384, 16640);
+	    do Memory.poke(memAddress +416, 8384);
+	    do Memory.poke(memAddress +448, 8224);
+	    do Memory.poke(memAddress +480, 16352);
+	    // column 1
+	    do Memory.poke(memAddress +33, 24);
+	    do Memory.poke(memAddress +65, 36);
+	    do Memory.poke(memAddress +97, 67);
+	    do Memory.poke(memAddress +129, 132);
+	    do Memory.poke(memAddress +161, 140);
+	    do Memory.poke(memAddress +193, 140);
+	    do Memory.poke(memAddress +225, 140);
+	    do Memory.poke(memAddress +257, 140);
+	    do Memory.poke(memAddress +289, 116);
+	    do Memory.poke(memAddress +321, 8);
+	    do Memory.poke(memAddress +353, 16);
+	    do Memory.poke(memAddress +385, 33);
+	    do Memory.poke(memAddress +417, 194);
+	    do Memory.poke(memAddress +449, 258);
+	    do Memory.poke(memAddress +481, 510);
+	    return;
+	}
+
+	method void eraseVegetaBody(int location) {
+		var int memAddress; 
+	    let memAddress = 16384+location;
+		// column 0  
+		do Memory.poke(memAddress +32, 0);  
+		do Memory.poke(memAddress +64, 0);  
+		do Memory.poke(memAddress +96, 0);  
+		do Memory.poke(memAddress +128, 0);  
+		do Memory.poke(memAddress +160, 0);  
+		do Memory.poke(memAddress +192, 0);  
+		do Memory.poke(memAddress +224, 0);  
+		do Memory.poke(memAddress +256, 0);  
+		do Memory.poke(memAddress +288, 0);  
+		do Memory.poke(memAddress +320, 0);  
+		do Memory.poke(memAddress +352, 0);  
+		do Memory.poke(memAddress +384, 0);  
+		do Memory.poke(memAddress +416, 0);  
+		do Memory.poke(memAddress +448, 0);  
+		do Memory.poke(memAddress +480, 0);  
+
+		// column 1  
+		do Memory.poke(memAddress +33, 0);  
+		do Memory.poke(memAddress +65, 0);  
+		do Memory.poke(memAddress +97, 0);  
+		do Memory.poke(memAddress +129, 0);  
+		do Memory.poke(memAddress +161, 0);  
+		do Memory.poke(memAddress +193, 0);  
+		do Memory.poke(memAddress +225, 0);  
+		do Memory.poke(memAddress +257, 0);  
+		do Memory.poke(memAddress +289, 0);  
+		do Memory.poke(memAddress +321, 0);  
+		do Memory.poke(memAddress +353, 0);  
+		do Memory.poke(memAddress +385, 0);  
+		do Memory.poke(memAddress +417, 0);  
+		do Memory.poke(memAddress +449, 0);  
+		do Memory.poke(memAddress +481, 0);
+		return;
+	}
+}

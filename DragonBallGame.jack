@@ -1,0 +1,83 @@
+class DragonBallGame {
+    field Vegeta vegeta;
+    field Floor floor;
+
+    field int ceiling_y, floor_y;
+    field int finished;
+
+    constructor DragonBallGame new() {
+        let floor_y = 255 - 32;
+        let ceiling_y = 0;
+
+        let finished = 0;
+
+        return this;
+    }
+
+    method void wait_for_game_start() {
+        var String str;
+        var int key;
+
+        let key = 0;
+
+        let str = "Dragon ball Game: press space to start";
+		do Output.moveCursor(6, 10);
+		do Output.printString(str);
+		do str.dispose();
+
+        while (~(key=32)) {
+            let key = Keyboard.keyPressed();
+        }
+
+        do Screen.clearScreen();
+        return;
+    }
+
+    method boolean play() {
+        var int key;
+        var boolean colide;
+
+        do wait_for_game_start();
+
+        // Draw character
+        let vegeta = Vegeta.new(5, 200, 10, 10);
+        do vegeta.draw();
+
+        // Draw floor
+        let floor = Floor.new(7680);
+        do floor.drawFloor();
+        let key = 0;
+        while (~(key = 81)) { // while 'q' isn't pressed
+            let key = Keyboard.keyPressed();
+            if (key = 32) {
+                do vegeta.fly();
+            }
+            else {
+                do vegeta.land();
+            }
+            
+            // check for detection with ceiling, TODO: add deteciton with dragon ball
+            if (detect_collision()) {
+                let key = 81;
+            }
+            do Sys.wait(10);
+        }
+        do vegeta.dispose();
+        do floor.dispose();
+        do Output.printString("Finished");
+        return true;
+    }
+
+    method void finish_game() {
+        do vegeta.dispose();
+        do floor.dispose();
+        return;
+    }
+
+    method boolean detect_collision() {
+        if (vegeta.getY() < ceiling_y) {
+            return true;
+        }
+        return false;
+    }
+}
