@@ -141,4 +141,9 @@ class Floor {
 		do drawLastTile(base_location + shift);
 		return;
 	}
+
+	method void dispose() {
+    	do Memory.deAlloc(this);
+    	return;
+	}
 }
