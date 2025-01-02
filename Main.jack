@@ -1,0 +1,28 @@
+class Main {
+    
+    function void main() {
+        var movingSquare square1;
+        var movingSquare square2;
+        
+       // var int exit;
+
+       // let exit = 0;
+        let square1 = movingSquare.new(31);
+        
+
+        while (~square1.isAtEnd()) {
+            do square1.moveLeft(); // Move the square one step to the left
+            do Sys.wait(100);       // Add a small delay for smooth animation
+        }
+        do square1.destroy();
+
+        let square2 = movingSquare.new(31);
+        while (~square2.isAtEnd()) {
+            do square2.moveLeft(); // Move the square one step to the left
+            do Sys.wait(100);       // Add a small delay for smooth animation
+        }
+        do square2.destroy();
+
+    return;
+    }
+}
