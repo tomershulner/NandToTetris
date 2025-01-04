@@ -95,7 +95,7 @@ class DragonBallGame {
     }
 
     method boolean play() {
-        var int key, random_ball_number, cycle;
+        var int key, random_ball_number;
         var Ball rnd_ball;
         var boolean colide;
 
@@ -129,11 +129,8 @@ class DragonBallGame {
             do goku.update(key);
 
             // update the current ball location
-            if (cycle = 1) {
-                do rnd_ball.moveLeft();
-                let cycle = -1;
-            }
-            
+            do rnd_ball.moveLeft();
+
             if (rnd_ball.isAtEnd()) {
                 do rnd_ball.dispose();
                 let rnd_ball = Ball.new(random_ball_number + 1);
@@ -159,7 +156,6 @@ class DragonBallGame {
                 do finish_game_succes();
                 return true;
             }
-            let cycle = cycle + 1;
             do Sys.wait(20);
         }
         return true;
