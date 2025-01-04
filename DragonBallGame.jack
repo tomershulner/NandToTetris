@@ -22,13 +22,22 @@ class DragonBallGame {
     method int wait_for_game_start() {
         var String str;
         var int key, cycles;
-
         let key = 0;
         let cycles = 0;
 
-        let str = "Collect all 7 dragon balls! press space to start";
-		do Output.moveCursor(6, 10);
+
+        // Draw floor
+        let floor = Floor.new(7680);
+        do floor.drawFloor();
+
+        let str = "Collect all 7 dragon balls to be granted a wish!";
+		do Output.moveCursor(8, 8);
 		do Output.printString(str);
+
+        let str = "Press space to start";
+        do Output.moveCursor(10, 22);
+        do Output.printString(str);
+
 		do str.dispose();
 
         while (~(key=32)) {
@@ -49,20 +58,26 @@ class DragonBallGame {
         }
         // Decrease the number of available balls
         let available_balls = available_balls - 1;
+
+        if (available_balls = 0) {
+            do dragonBalls.dispose();
+        }
         return;
         }
 
 
     method void initializeGame() {
         // Draw main character
-        let goku = Goku.new(16, 202, 10, 10);
+        let goku = Goku.new(16, 192, 10, 10);
         do goku.draw();
 
+                
         // Draw floor
         let floor = Floor.new(7680);
-        // do floor.drawFloor();
+        do floor.drawFloor();
 
         do initialize_dragon_balls();
+
 
         return;
     }
@@ -114,7 +129,7 @@ class DragonBallGame {
             do goku.update(key);
 
             // update the current ball location
-            if (cycle = 2) {
+            if (cycle = 1) {
                 do rnd_ball.moveLeft();
                 let cycle = -1;
             }
@@ -128,25 +143,29 @@ class DragonBallGame {
 
             // check for collision
             if (detect_ceiling_collision()) {
-                let key = 81; // Finish the game 
+                do failed_game();
+                return true;
             }
             if (detect_ball_collision(rnd_ball)) {
-                if (~(available_balls = 0)) {
-                    do remove_ball(random_ball_number);
-                }
+                // If the player collected a ball
+                do remove_ball(random_ball_number);
                 do rnd_ball.dispose();
                 let is_ball_on_screen = false;
             }
 
-            // check for end of game
+            // check if the player collected all the dragon balls
             if (available_balls = 0) {
                 do dragonBalls.dispose();
                 do finish_game_succes();
+                return true;
             }
             let cycle = cycle + 1;
             do Sys.wait(20);
         }
+        return true;
+    }
 
+    method void failed_game() {
         // TODO: add final screen
         do goku.dispose();
         do floor.dispose();

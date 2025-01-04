@@ -4,7 +4,7 @@ class Ball {
     field int ballType;
 
     constructor Ball new(int number) {
-        let row = (LCGRandom.randRange(16, 232));
+        let row = (LCGRandom.randRange(16, 220));
         let column = 512;
         let location = (32 * row) + (column / 16);
         let ballType = number;
