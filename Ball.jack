@@ -94,6 +94,10 @@ class Ball {
         return row;
     }
 
+    method int getSize() {
+        return 16;
+    }
+
     method int getNumber() {
         return ballType;
     }

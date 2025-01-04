@@ -1,111 +1,118 @@
 // Class that reprsents the main character of the game
 
 class Goku {
-	field int x_location;
-	field int y_location;
+	field int current_x, current_y, width, height;
 	field int inital_y;
 
-	field int stance; // 1 is flying, 0 is standing
+	field int current_stance; // 1 is flying, 0 is standing
 
-	field int x_size, height;
-
-    field int current_location;
+    field int memory_location;
 
 	// Physics 
 	field int gravity;
 	field int jump_velocity;
     
-    constructor Goku new(int x, int y, int tgravity, int tjump) {
+    constructor Goku new(int column, int row, int tgravity, int tjump) {
 		// Initialize character coordinates
-        let x_location = x;
-		let y_location = y;
-		let inital_y = y;
-		do update_location();
+        let current_x = column;
+		let current_y = row;
+		let inital_y = current_y;
 
-		let stance = 0;
+		// Fixed charachter size from the bitmap
+		let width = 32;
+		let height = 64;
+		do update_memory_location();
 
-		// Initialize game hysics
+		let current_stance = 0;
+
+		// Initialize game physics
 		let gravity = tgravity;
 		let jump_velocity = tjump;
 
         return this;
     }
 
-	method void update_location() {
-		let current_location = (y_location* 32) + (x_location/16);
+	method void update_memory_location() {
+		// update the current location for the memory.poke
+		let memory_location = (current_y* 32) + (current_x/16);
 		return;
 	}
 
 	method void draw() {
-		if (stance = 1) {
-			do Graphics.drawGokuFlying(current_location);
+		if (current_stance = 1) {
+			do Graphics.drawGokuFlying(memory_location);
 		}
 		else {
-			do Graphics.drawGokuStanding(current_location);
+			do Graphics.drawGokuStanding(memory_location);
 		}
 		return;
 	}
 
 	method void erase() {
-		if (stance = 1) {
-			do Graphics.eraseGokuFlying(current_location);
+		if (current_stance = 1) {
+			do Graphics.eraseGokuFlying(memory_location);
 		}
 		else {
-			do Graphics.eraseGokuStanding(current_location);
+			do Graphics.eraseGokuStanding(memory_location);
 		}
 		return;
 	}
 
 	method void fly() {
 		// Function to update the y location when goku is flying
-		let y_location = y_location - jump_velocity;
-		do update_location();
+		let current_y = current_y - jump_velocity;
+		do update_memory_location();
 		return;
 	}
 
 	method void land() {
 		// Function to update the y location when goku is standing
-		if (y_location < inital_y) {
-			let y_location = y_location + gravity;
-			do update_location();
+		if (current_y < inital_y) {
+			let current_y = current_y + gravity;
+			do update_memory_location();
 		}
 		return;
 	}
 
 	method void update(int key) {
-			do erase();
-		    if (key = 32) {
-                do fly();
-            }
-            else {
-                do land();
-            }
-			do update_stance();
-			do draw();
-			return;
+		// Updates the charchter instace: coordinates and drawing
+		do erase();
+		if (key = 32) {
+            do fly();
+        }
+        else {
+            do land();
+        }
+		do update_stance();
+		do draw();
+		return;
 	}
 
 	method void update_stance() {
 		// 0 when standing, 1 when flying
-		if (y_location = inital_y) {
-			let stance = 0;
+		if (current_y = inital_y) {
+			let current_stance = 0;
 		}
 		else {
-			let stance = 1;
+			let current_stance = 1;
 		}
 		return;
 	}
 
 	method int getY() {
-		return y_location;
+		return current_y;
 	}
 	
 	method int getX() {
-		return x_location;
+		return current_x;
 	}
 
 	method int getHeight() {
 		return height;
+	}
+
+	method int getWidth() {
+		return width;
 	}
 
 	method void dispose() {

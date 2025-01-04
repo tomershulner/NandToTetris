@@ -129,6 +129,11 @@ class DragonBallGame {
                 let dragonBalls[random_ball_number] = rnd_ball;
                 let is_ball_on_screen = false;
             }
+
+            // check for end of game
+            if (available_balls = 0) {
+                do finish_game_succes();
+            }
             do Sys.wait(25);
         }
 
@@ -142,21 +147,26 @@ class DragonBallGame {
     method void finish_game_succes() {
         do goku.dispose();
         do floor.dispose();
+		do Output.moveCursor(6, 10);
         do Output.printString("Well Done Goku!");
         return;
     }
 
-    //method int get_ranom_uncollected_ball_number() {
-
-    //}
 
     method boolean detect_ball_collision(Ball ball) {
-        if (ball.getX() = goku.getX()) {
-            if (ball.getY() = goku.getY()) {
-                return true;
-            }
+        if (goku.getX() + goku.getWidth() < ball.getX()) {
+            return false;
         }
-        return false;
+        if (goku.getX() > ball.getX() + ball.getSize()) {
+            return false;
+        }
+        if (goku.getY() > ball.getY() + ball.getSize()) {
+            return false;
+        }
+        if (goku.getY() + goku.getHeight() < ball.getY()) {
+            return false;
+        }
+        return true;
     }
 
     method boolean detect_ceiling_collision() {
