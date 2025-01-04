@@ -1,12 +1,12 @@
 class DragonBallGame {
-    field Vegeta vegeta;
+    field Goku goku;
     field Floor floor;
 
     field int ceiling_y, floor_y;
     field int finished;
 
     constructor DragonBallGame new() {
-        let floor_y = 255 - 32;
+        let floor_y = 255 - 16;
         let ceiling_y = 0;
 
         let finished = 0;
@@ -40,27 +40,27 @@ class DragonBallGame {
         do wait_for_game_start();
 
         // Draw character
-        let vegeta = Vegeta.new(5, 200, 10, 10);
-        do vegeta.draw();
+        let goku = Goku.new(5, 202, 10, 10);
+        do goku.draw();
 
         // Draw floor
         let floor = Floor.new(7680);
-        do floor.drawFloor();
+        // do floor.drawFloor();
         let key = 0;
         while (~(key = 81)) { // while 'q' isn't pressed
             let key = Keyboard.keyPressed();
             if (key = 32) {
-                do vegeta.fly();
+                do goku.fly();
             }
             else {
-                do vegeta.land();
+                do goku.land();
             }
             
             // check for detection with ceiling, TODO: add deteciton with dragon ball
             if (detect_collision()) {
                 let key = 81;
             }
-            do Sys.wait(10);
+            do Sys.wait(12);
         }
         do vegeta.dispose();
         do floor.dispose();
@@ -75,7 +75,7 @@ class DragonBallGame {
     }
 
     method boolean detect_collision() {
-        if (vegeta.getY() < ceiling_y) {
+        if (goku.getY() < ceiling_y) {
             return true;
         }
         return false;

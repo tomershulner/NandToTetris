@@ -1,9 +1,9 @@
-class movingSquare {
+class MovingSquare {
 
     field int location;
 
     //Constructor: Initializes the square at a specific position.
-    constructor Square new(int pos) {
+    constructor MovingSquare new(int pos) {
         let location = pos;
         return this;
     }
