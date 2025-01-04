@@ -43,6 +43,7 @@ class Goku {
 		else {
 			do Graphics.drawGokuStanding(current_location);
 		}
+		return;
 	}
 
 	method void erase() {
@@ -50,38 +51,49 @@ class Goku {
 			do Graphics.eraseGokuFlying(current_location);
 		}
 		else {
-			do Graphics.eraseGoku
+			do Graphics.eraseGokuStanding(current_location);
 		}
+		return;
 	}
 
 	method void fly() {
-		do erase();
+		// Function to update the y location when goku is flying
 		let y_location = y_location - jump_velocity;
 		do update_location();
-		do Graphics.drawGokuFlying();
 		return;
 	}
 
 	method void land() {
-		do Output.moveCursor(1,1);
-		do Output.printInt(y_location);
+		// Function to update the y location when goku is standing
 		if (y_location < inital_y) {
-			do erase();
 			let y_location = y_location + gravity;
 			do update_location();
-			do draw();
 		}
 		return;
 	}
 
 	method void update(int key) {
+			do erase();
 		    if (key = 32) {
-				
-                do goku.fly();
+                do fly();
             }
             else {
-                do goku.land();
+                do land();
             }
+			do update_stance();
+			do draw();
+			return;
+	}
+
+	method void update_stance() {
+		// 0 when standing, 1 when flying
+		if (y_location = inital_y) {
+			let stance = 0;
+		}
+		else {
+			let stance = 1;
+		}
+		return;
 	}
 
 	method int getY() {

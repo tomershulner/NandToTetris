@@ -2,80 +2,138 @@ class DragonBallGame {
     field Goku goku;
     field Floor floor;
 
-    field int ceiling_y, floor_y;
+    field Ball ball1;
+    field Ball ball2;
+    field Ball ball3;
+    field Ball ball4;
+    field Ball ball5;
+    field Ball ball6;
+    field Ball ball7;
+
+    field boolean is_ball_on_screen;
+    
+
+    field Array dragonBalls, collected_balls;
+
     field int finished;
 
     constructor DragonBallGame new() {
-        let floor_y = 255 - 16;
-        let ceiling_y = 0;
+        let finished = 0; // Is the game finished
+        let dragonBalls = Array.new(7);
 
-        let finished = 0;
+        let collected_balls = Array.new(7);
+
+        let ball1 = Ball.new(1);
+        let ball2 = Ball.new(2);
+        let ball3 = Ball.new(3);
+        let ball4 = Ball.new(4);
+        let ball5 = Ball.new(5);
+        let ball6 = Ball.new(6);
+        let ball7 = Ball.new(7);
+
+        let dragonBalls[0] = ball1; 
+        let dragonBalls[1] = ball2; 
+        let dragonBalls[2] = ball3; 
+        let dragonBalls[3] = ball4; 
+        let dragonBalls[4] = ball5; 
+        let dragonBalls[5] = ball6; 
+        let dragonBalls[6] = ball7; 
+
+
+        let is_ball_on_screen = false;
 
         return this;
     }
 
-    method void wait_for_game_start() {
+    method int wait_for_game_start() {
         var String str;
-        var int key;
+        var int key, cycles;
 
         let key = 0;
+        let cycles = 0;
 
-        let str = "Dragon ball Game: press space to start";
+        let str = "Collect all 7 dragon balls! press space to start";
 		do Output.moveCursor(6, 10);
 		do Output.printString(str);
 		do str.dispose();
 
         while (~(key=32)) {
             let key = Keyboard.keyPressed();
+            let cycles = cycles + 1;
         }
 
         do Screen.clearScreen();
-        return;
+        return cycles;
     }
 
-    method boolean play() {
-        var int key;
-        var boolean colide;
-
-        do wait_for_game_start();
-
+    method void drawStartState() {
         // Draw character
-        let goku = Goku.new(5, 202, 10, 10);
+        let goku = Goku.new(16, 202, 10, 10);
         do goku.draw();
 
         // Draw floor
         let floor = Floor.new(7680);
         // do floor.drawFloor();
+        return;
+    }
+
+    method boolean play() {
+        var int key, random_ball_number;
+        var boolean colide;
+
+        do Random.setSeed(wait_for_game_start());  // TODO: change if needed
+    
+        // When the player start the game
+        do drawStartState();
+
+
+        // Main game loop
         let key = 0;
         while (~(key = 81)) { // while 'q' isn't pressed
+
+            if (~is_ball_on_screen) {
+                do ball1.drawBall();
+                let is_ball_on_screen = true;
+            }
+            
             let key = Keyboard.keyPressed();
-            if (key = 32) {
-                do goku.fly();
-            }
-            else {
-                do goku.land();
-            }
+            do goku.update(key);
             
             // check for detection with ceiling, TODO: add deteciton with dragon ball
             if (detect_collision()) {
-                let key = 81;
+                let key = 81; // Finish the game 
             }
-            do Sys.wait(12);
+            do ball1.moveLeft();
+            if (ball1.isAtEnd()) {
+                do ball1.dispose();
+                let ball1 = Ball.new(1);
+                let is_ball_on_screen = false;
+            }
+
+            // TODO: check if ball got to end
+            do Sys.wait(25);
         }
-        do vegeta.dispose();
+
+        // TODO: add final screen
+        do goku.dispose();
         do floor.dispose();
         do Output.printString("Finished");
         return true;
     }
 
     method void finish_game() {
-        do vegeta.dispose();
+        do goku.dispose();
         do floor.dispose();
         return;
     }
 
+    method int get_ranom_uncollected_ball_number() {
+
+    }
+
     method boolean detect_collision() {
-        if (goku.getY() < ceiling_y) {
+        if (goku.getY() < 0) {
+            // Check if goku collides with the ceiling  TODO: maybe move to goku class
             return true;
         }
         return false;

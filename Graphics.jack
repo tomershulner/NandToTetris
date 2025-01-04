@@ -11,14 +11,16 @@ class Graphics {
 	function void drawGokuFlying(int location) {
 		do drawGokuHead(location);
 		do drawGokuFlyingBody(location + (32 * 24));
+		return;
 	}
 
 	function void eraseGokuFlying(int location) {
 		do eraseGokuHead(location);
-		do eraseGokuFlying
+		do eraseGokuFlyingBody(location + (32 * 24));
+		return;
 	}
 
-	    function void Standing(int location) {
+	    function void eraseGokuStanding(int location) {
         do eraseGokuHead(location);
 		do eraseGokuStandingBody(location + (32*24));
         return;
