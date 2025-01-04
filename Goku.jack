@@ -1,0 +1,99 @@
+// Class that reprsents the main character of the game
+
+class Goku {
+	field int x_location;
+	field int y_location;
+	field int inital_y;
+
+	field int stance; // 1 is flying, 0 is standing
+
+	field int x_size, height;
+
+    field int current_location;
+
+	// Physics 
+	field int gravity;
+	field int jump_velocity;
+    
+    constructor Goku new(int x, int y, int tgravity, int tjump) {
+		// Initialize character coordinates
+        let x_location = x;
+		let y_location = y;
+		let inital_y = y;
+		do update_location();
+
+		let stance = 0;
+
+		// Initialize game hysics
+		let gravity = tgravity;
+		let jump_velocity = tjump;
+
+        return this;
+    }
+
+	method void update_location() {
+		let current_location = (y_location* 32) + (x_location/16);
+		return;
+	}
+
+	method void draw() {
+		if (stance = 1) {
+			do Graphics.drawGokuFlying(current_location);
+		}
+		else {
+			do Graphics.drawGokuStanding(current_location);
+		}
+	}
+
+	method void erase() {
+		if (stance = 1) {
+			do Graphics.eraseGokuFlying(current_location);
+		}
+		else {
+			do Graphics.eraseGoku
+		}
+	}
+
+	method void fly() {
+		do erase();
+		let y_location = y_location - jump_velocity;
+		do update_location();
+		do Graphics.drawGokuFlying();
+		return;
+	}
+
+	method void land() {
+		do Output.moveCursor(1,1);
+		do Output.printInt(y_location);
+		if (y_location < inital_y) {
+			do erase();
+			let y_location = y_location + gravity;
+			do update_location();
+			do draw();
+		}
+		return;
+	}
+
+	method void update(int key) {
+		    if (key = 32) {
+				
+                do goku.fly();
+            }
+            else {
+                do goku.land();
+            }
+	}
+
+	method int getY() {
+		return y_location;
+	}
+
+	method int getHeight() {
+		return height;
+	}
+
+	method void dispose() {
+    	do Memory.deAlloc(this);
+    	return;
+	}
+}
