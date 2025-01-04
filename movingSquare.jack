@@ -5,7 +5,7 @@ class MovingSquare {
 
     //Constructor: Initializes the square at a specific position.
     constructor MovingSquare new(int row) {
-        let start_location = (32 * row) + 31;
+        let start_location = (32 * row) + 32;
         let location = start_location;
         return this;
     }
@@ -65,7 +65,7 @@ class MovingSquare {
     }
 
     method boolean isAtEnd() {
-        return (location = (start_location - 31)); // True if the square is at the leftmost position of the same row
+        return (location = (start_location - 32)); // True if the square is at the leftmost position of the same row
     }
 
     method void destroy() {
