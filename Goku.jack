@@ -99,6 +99,10 @@ class Goku {
 	method int getY() {
 		return y_location;
 	}
+	
+	method int getX() {
+		return x_location;
+	}
 
 	method int getHeight() {
 		return height;

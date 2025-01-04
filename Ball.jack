@@ -1,11 +1,10 @@
 class Ball {
-    field int location;
+    field int location, row;
     field int start_location;
     field int ballType;
 
     constructor Ball new(int number) {
-        var int row; // TODO: randomized row
-        let row = Random.randRange(220) + 16;
+        let row = (LCGRandom.randRange(16, 232));
         let start_location = (32 * row) + 32;
         let location = start_location;
         let ballType = number;
@@ -16,25 +15,25 @@ class Ball {
     method void drawBall() {
             // Call the appropriate draw method from the graphics class
             if (ballType = 1) {
-                do DBGraphics.drawDB1(location);
+                do Graphics.drawDB1(location);
             } 
             if (ballType = 2) {
-                do DBGraphics.drawDB2(location);
+                do Graphics.drawDB2(location);
             } 
             if (ballType = 3) {
-                do DBGraphics.drawDB3(location);
+                do Graphics.drawDB3(location);
             }  
             if (ballType = 4) {
-                do DBGraphics.drawDB4(location);
+                do Graphics.drawDB4(location);
             }  
             if (ballType = 5) {
-                do DBGraphics.drawDB5(location);
+                do Graphics.drawDB5(location);
             }  
             if (ballType = 6) {
-                do DBGraphics.drawDB6(location);
+                do Graphics.drawDB6(location);
             }  
             if (ballType = 7) {
-                do DBGraphics.drawDB7(location);
+                do Graphics.drawDB7(location);
             }
         return;
     }
@@ -43,19 +42,19 @@ class Ball {
     //Clears the ball from the screen.
     method void clear() {
         if (ballType = 1) {
-            do DBGraphics.clearDB1(location);
+            do Graphics.clearDB1(location);
         }  if (ballType = 2) {
-            do DBGraphics.clearDB2(location);
+            do Graphics.clearDB2(location);
         }  if (ballType = 3) {
-            do DBGraphics.clearDB3(location);
+            do Graphics.clearDB3(location);
         }  if (ballType = 4) {
-            do DBGraphics.clearDB4(location);
+            do Graphics.clearDB4(location);
         }  if (ballType = 5) {
-            do DBGraphics.clearDB5(location);
+            do Graphics.clearDB5(location);
         }  if (ballType = 6) {
-            do DBGraphics.clearDB6(location);
+            do Graphics.clearDB6(location);
         }  if (ballType = 7) {
-            do DBGraphics.clearDB7(location);
+            do Graphics.clearDB7(location);
         }
         return;
     }
@@ -70,21 +69,33 @@ class Ball {
 
         // Redraw the ball at the new position
         if (ballType = 1) {
-            do DBGraphics.drawDB1(location);
+            do Graphics.drawDB1(location);
         }  if (ballType = 2) {
-            do DBGraphics.drawDB2(location);
+            do Graphics.drawDB2(location);
         }  if (ballType = 3) {
-            do DBGraphics.drawDB3(location);
+            do Graphics.drawDB3(location);
         }  if (ballType = 4) {
-            do DBGraphics.drawDB4(location);
+            do Graphics.drawDB4(location);
         }  if (ballType = 5) {
-            do DBGraphics.drawDB5(location);
+            do Graphics.drawDB5(location);
         }  if (ballType = 6) {
-            do DBGraphics.drawDB6(location);
+            do Graphics.drawDB6(location);
         }  if (ballType = 7) {
-            do DBGraphics.drawDB7(location);
+            do Graphics.drawDB7(location);
         }
         return;
+    }
+
+    method int getX() {
+        return location;
+    }
+
+    method int getY() {
+        return row;
+    }
+
+    method int getNumber() {
+        return ballType;
     }
 
     method boolean isAtEnd() {

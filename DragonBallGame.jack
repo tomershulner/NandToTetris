@@ -2,48 +2,22 @@ class DragonBallGame {
     field Goku goku;
     field Floor floor;
 
-    field Ball ball1;
-    field Ball ball2;
-    field Ball ball3;
-    field Ball ball4;
-    field Ball ball5;
-    field Ball ball6;
-    field Ball ball7;
-
     field boolean is_ball_on_screen;
+    field int available_balls;
     
 
-    field Array dragonBalls, collected_balls;
+    field Array dragonBalls;
 
     field int finished;
 
     constructor DragonBallGame new() {
         let finished = 0; // Is the game finished
         let dragonBalls = Array.new(7);
-
-        let collected_balls = Array.new(7);
-
-        let ball1 = Ball.new(1);
-        let ball2 = Ball.new(2);
-        let ball3 = Ball.new(3);
-        let ball4 = Ball.new(4);
-        let ball5 = Ball.new(5);
-        let ball6 = Ball.new(6);
-        let ball7 = Ball.new(7);
-
-        let dragonBalls[0] = ball1; 
-        let dragonBalls[1] = ball2; 
-        let dragonBalls[2] = ball3; 
-        let dragonBalls[3] = ball4; 
-        let dragonBalls[4] = ball5; 
-        let dragonBalls[5] = ball6; 
-        let dragonBalls[6] = ball7; 
-
-
         let is_ball_on_screen = false;
-
+        let available_balls = 7;
         return this;
     }
+   
 
     method int wait_for_game_start() {
         var String str;
@@ -66,51 +40,95 @@ class DragonBallGame {
         return cycles;
     }
 
-    method void drawStartState() {
-        // Draw character
+    // method int get_random_uncollected_ball_number() {
+    //     var int number;
+    //     let number = Random.randRange(available_balls - 1);
+    //     return number;
+    // }
+
+    method void remove_ball(int index){
+        var int i;
+        let i = index;
+        while (i < (available_balls - 1)) {
+            let dragonBalls[i] = dragonBalls[i + 1];
+            let i = i + 1;
+        }
+        // Decrease the number of available balls
+        let available_balls = available_balls - 1;
+        return;
+        }
+
+
+    method void initializeGame() {
+        // Draw main character
         let goku = Goku.new(16, 202, 10, 10);
         do goku.draw();
 
         // Draw floor
         let floor = Floor.new(7680);
         // do floor.drawFloor();
+
+        do initialize_dragon_balls();
+
+        return;
+    }
+
+    method void initialize_dragon_balls() {
+        var int i;
+        var Ball ball;
+        let i = 0;
+        while (i < 7) {
+            let ball = Ball.new(i + 1);
+            let dragonBalls[i] = ball;
+            let i = i + 1;
+        }
         return;
     }
 
     method boolean play() {
-        var int key, random_ball_number;
+        var int key, random_ball_number, cycle;
+        var Ball rnd_ball;
         var boolean colide;
 
-        do Random.setSeed(wait_for_game_start());  // TODO: change if needed
-    
-        // When the player start the game
-        do drawStartState();
+        // Create randomness for the dragon balls
+        do LCGRandom.setSeed(wait_for_game_start());
 
-
-        // Main game loop
+        // When the player start the game start main game loop
+        do initializeGame();
         let key = 0;
         while (~(key = 81)) { // while 'q' isn't pressed
 
+            // Create ball instace to appear on screen
             if (~is_ball_on_screen) {
-                do ball1.drawBall();
+                let random_ball_number = LCGRandom.randRange(0, 6);
+                let rnd_ball = dragonBalls[random_ball_number];
                 let is_ball_on_screen = true;
             }
             
+            // Check for player input
             let key = Keyboard.keyPressed();
-            do goku.update(key);
             
-            // check for detection with ceiling, TODO: add deteciton with dragon ball
-            if (detect_collision()) {
+            // update main charchter
+            do goku.update(key);
+
+
+            // check for collision
+            if (detect_ceiling_collision()) {
                 let key = 81; // Finish the game 
             }
-            do ball1.moveLeft();
-            if (ball1.isAtEnd()) {
-                do ball1.dispose();
-                let ball1 = Ball.new(1);
+            if (detect_ball_collision(rnd_ball)) {
+                do remove_ball(rnd_ball.getNumber());
+                do Output.moveCursor(0,0);
+                do Output.printInt(available_balls);
+                
+            }
+            do rnd_ball.moveLeft();
+            if (rnd_ball.isAtEnd()) {
+                do rnd_ball.dispose();
+                let rnd_ball = Ball.new(random_ball_number + 1);
+                let dragonBalls[random_ball_number] = rnd_ball;
                 let is_ball_on_screen = false;
             }
-
-            // TODO: check if ball got to end
             do Sys.wait(25);
         }
 
@@ -121,18 +139,28 @@ class DragonBallGame {
         return true;
     }
 
-    method void finish_game() {
+    method void finish_game_succes() {
         do goku.dispose();
         do floor.dispose();
+        do Output.printString("Well Done Goku!");
         return;
     }
 
-    method int get_ranom_uncollected_ball_number() {
+    //method int get_ranom_uncollected_ball_number() {
 
+    //}
+
+    method boolean detect_ball_collision(Ball ball) {
+        if (ball.getX() = goku.getX()) {
+            if (ball.getY() = goku.getY()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    method boolean detect_collision() {
-        if (goku.getY() < 0) {
+    method boolean detect_ceiling_collision() {
+        if (goku.getY() < 1) {
             // Check if goku collides with the ceiling  TODO: maybe move to goku class
             return true;
         }
