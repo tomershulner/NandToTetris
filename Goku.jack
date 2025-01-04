@@ -20,7 +20,7 @@ class Goku {
 
 		// Fixed charachter size from the bitmap
 		let width = 32;
-		let height = 64;
+		let height = 58;
 		do update_memory_location();
 
 		let current_stance = 0;

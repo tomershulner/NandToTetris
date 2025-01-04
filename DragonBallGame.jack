@@ -40,12 +40,6 @@ class DragonBallGame {
         return cycles;
     }
 
-    // method int get_random_uncollected_ball_number() {
-    //     var int number;
-    //     let number = Random.randRange(available_balls - 1);
-    //     return number;
-    // }
-
     method void remove_ball(int index){
         var int i;
         let i = index;
@@ -100,9 +94,17 @@ class DragonBallGame {
 
             // Create ball instace to appear on screen
             if (~is_ball_on_screen) {
-                let random_ball_number = LCGRandom.randRange(0, 6);
+                if (available_balls = 1) {
+                    let random_ball_number = 0;
+                }
+                else {
+                    let random_ball_number = LCGRandom.randRange(0, available_balls - 1);
+                }
+                
                 let rnd_ball = dragonBalls[random_ball_number];
                 let is_ball_on_screen = true;
+                do Output.moveCursor(0,0);
+                do Output.printInt(rnd_ball.getNumber());
             }
             
             // Check for player input
@@ -111,18 +113,12 @@ class DragonBallGame {
             // update main charchter
             do goku.update(key);
 
-
-            // check for collision
-            if (detect_ceiling_collision()) {
-                let key = 81; // Finish the game 
+            // update the current ball location
+            if (cycle = 2) {
+                do rnd_ball.moveLeft();
+                let cycle = -1;
             }
-            if (detect_ball_collision(rnd_ball)) {
-                do remove_ball(rnd_ball.getNumber());
-                do Output.moveCursor(0,0);
-                do Output.printInt(available_balls);
-                
-            }
-            do rnd_ball.moveLeft();
+            
             if (rnd_ball.isAtEnd()) {
                 do rnd_ball.dispose();
                 let rnd_ball = Ball.new(random_ball_number + 1);
@@ -130,11 +126,25 @@ class DragonBallGame {
                 let is_ball_on_screen = false;
             }
 
+            // check for collision
+            if (detect_ceiling_collision()) {
+                let key = 81; // Finish the game 
+            }
+            if (detect_ball_collision(rnd_ball)) {
+                if (~(available_balls = 0)) {
+                    do remove_ball(random_ball_number);
+                }
+                do rnd_ball.dispose();
+                let is_ball_on_screen = false;
+            }
+
             // check for end of game
             if (available_balls = 0) {
+                do dragonBalls.dispose();
                 do finish_game_succes();
             }
-            do Sys.wait(25);
+            let cycle = cycle + 1;
+            do Sys.wait(20);
         }
 
         // TODO: add final screen
@@ -154,16 +164,23 @@ class DragonBallGame {
 
 
     method boolean detect_ball_collision(Ball ball) {
+        var int goku_top, goku_bottom, ball_top, ball_bottom;
+        let goku_top = goku.getY();
+        let goku_bottom = goku_top + goku.getHeight();
+
+        let ball_top = ball.getY();
+        let ball_bottom = ball_top + ball.getSize();
+
+        if (goku_top > ball_bottom) {
+            return false;
+        }
+        if (goku_bottom < ball_top) {
+            return false;
+        }
         if (goku.getX() + goku.getWidth() < ball.getX()) {
             return false;
         }
         if (goku.getX() > ball.getX() + ball.getSize()) {
-            return false;
-        }
-        if (goku.getY() > ball.getY() + ball.getSize()) {
-            return false;
-        }
-        if (goku.getY() + goku.getHeight() < ball.getY()) {
             return false;
         }
         return true;

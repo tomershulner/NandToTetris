@@ -1,12 +1,12 @@
 class Ball {
-    field int location, row;
+    field int location, row, column;
     field int start_location;
     field int ballType;
 
     constructor Ball new(int number) {
         let row = (LCGRandom.randRange(16, 232));
-        let start_location = (32 * row) + 32;
-        let location = start_location;
+        let column = 512;
+        let location = (32 * row) + (column / 16);
         let ballType = number;
 
         return this;
@@ -64,8 +64,9 @@ class Ball {
         // Clear the current position
         do clear();
 
+        let column = column - 16;
         // Move the ball one step left
-        let location = location - 1;
+        let location = (32 * row) + (column/16);
 
         // Redraw the ball at the new position
         if (ballType = 1) {
@@ -87,7 +88,7 @@ class Ball {
     }
 
     method int getX() {
-        return location;
+        return column;
     }
 
     method int getY() {
@@ -103,7 +104,7 @@ class Ball {
     }
 
     method boolean isAtEnd() {
-        return (location = (start_location - 32)); // True if the square is at the leftmost position of the same row
+        return (column < 0); // True if the square is at the leftmost position of the same row
     }
 
     method void dispose() {
