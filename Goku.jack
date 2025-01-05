@@ -60,8 +60,11 @@ class Goku {
 
 	method void fly() {
 		// Function to update the y location when goku is flying
-		let current_y = current_y - jump_velocity;
-		do update_memory_location();
+		if (current_y > 2) {
+			let current_y = current_y - jump_velocity;
+			do update_memory_location();
+		}
+
 		return;
 	}
 
@@ -113,6 +116,12 @@ class Goku {
 
 	method int getWidth() {
 		return width;
+	}
+
+	method void die() {
+		do erase();
+		do Graphics.drawDyingGoku(memory_location);
+		return;
 	}
 
 	method void dispose() {

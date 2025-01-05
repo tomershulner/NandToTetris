@@ -4,7 +4,7 @@ class Ball {
     field int ballType;
 
     constructor Ball new(int number) {
-        let row = (LCGRandom.randRange(16, 220));
+        let row = (LCGRandom.randRange(32, 220));
         let column = 512;
         let location = (32 * row) + (column / 16);
         let ballType = number;
@@ -12,7 +12,7 @@ class Ball {
         return this;
     }
 
-    method void drawBall() {
+    method void draw() {
             // Call the appropriate draw method from the graphics class
             if (ballType = 1) {
                 do Graphics.drawDB1(location);
@@ -69,21 +69,7 @@ class Ball {
         let location = (32 * row) + (column/16);
 
         // Redraw the ball at the new position
-        if (ballType = 1) {
-            do Graphics.drawDB1(location);
-        }  if (ballType = 2) {
-            do Graphics.drawDB2(location);
-        }  if (ballType = 3) {
-            do Graphics.drawDB3(location);
-        }  if (ballType = 4) {
-            do Graphics.drawDB4(location);
-        }  if (ballType = 5) {
-            do Graphics.drawDB5(location);
-        }  if (ballType = 6) {
-            do Graphics.drawDB6(location);
-        }  if (ballType = 7) {
-            do Graphics.drawDB7(location);
-        }
+        do draw();
         return;
     }
 
