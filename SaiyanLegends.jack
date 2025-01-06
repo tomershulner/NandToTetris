@@ -1,4 +1,4 @@
-class DragonBallGame {
+class SaiyanLegends {
     field Goku goku;
     field Floor floor;
     field Obstacle currentObstacle;
@@ -12,7 +12,7 @@ class DragonBallGame {
 
     field int finished;
 
-    constructor DragonBallGame new() {
+    constructor SaiyanLegends new() {
         let finished = 0; // Is the game finished
         let dragonBalls = Array.new(7);
         let isBallOnScreen = false;
@@ -31,9 +31,11 @@ class DragonBallGame {
         do floor.drawFloor();
 
         // Draw starting 
-		do Output.moveCursor(9, 17);
+		do Output.moveCursor(7, 17);
 		do Output.printString("Collect all the Dragonballs!");
-        do Output.moveCursor(11, 21);
+        do Output.moveCursor(9, 20);
+		do Output.printString("Beware the fireballs..");
+        do Output.moveCursor(13, 21);
         do Output.printString("Press SPACE to start");
 
         while (~(pressedKey=32)) {
@@ -145,8 +147,9 @@ class DragonBallGame {
             if (detectObstacleCollision(currentObstacle)) {
                 return exitGame();
             }
-            do Sys.wait(20);
-        }
+            
+            do Sys.wait(30);
+        }    
         return true;
     }
 
@@ -171,12 +174,6 @@ class DragonBallGame {
         }
         return true;
     }
-
-    method void restart(){
-            do DragonBallGame.new();
-            return;
-         }
-    
 
     method boolean detectBallCollision(Ball ball) {
         var int gokuTop, gokuBottom, gokuLeft, gokuRight; // Goku coordinates
