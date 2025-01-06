@@ -1,17 +1,17 @@
 class Main {
     function void main() {
 
-        var DragonBallGame game;
+        var SaiyanLegends game;
         var boolean exit;
         var Floor endFloor;
-        let game = DragonBallGame.new();
+        let game = SaiyanLegends.new();
 
         let exit = false;
         while (~exit) {
             let exit = game.play();
             do Screen.clearScreen();
             do game.dispose();
-            let game = DragonBallGame.new();
+            let game = SaiyanLegends.new();
         }
         // Draw floor
         let endFloor = Floor.new(7680);
